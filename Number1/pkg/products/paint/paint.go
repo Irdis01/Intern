@@ -1,5 +1,6 @@
 package paint
 
+//ProductPaint интерфейс карсок
 type ProductPaint interface {
 	GetName() (name string)
 	GetType() (name string)
@@ -14,7 +15,8 @@ func (p *paint) GetName() (name string) {
 	return name
 }
 
-func NewPaint(name string) *paint {
+//NewPaint фабрика красок
+func NewPaint(name string) ProductPaint {
 	newPaint := paint{name: name}
 	return &newPaint
 }

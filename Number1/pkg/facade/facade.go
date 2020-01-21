@@ -1,59 +1,46 @@
 package facade
 
-import (
-	"github.com/Irdis01/Intern/Number1/pkg/doorShop"
-	"github.com/Irdis01/Intern/Number1/pkg/paintShop"
-	"github.com/Irdis01/Intern/Number1/pkg/products"
-)
+type productInterface interface {
+	GetName() (name string)
+	GetType() (name string)
+}
 
+type doorShop interface {
+	SellDoor(name string) bool
+}
+
+type paintShop interface {
+	SellPaint(name string) bool
+}
+
+//Manager интерфейс фасада
 type Manager interface {
-	Bye(product ...products.Product)
+	Bye(product productInterface) bool
 }
 
 type manager struct {
-	newDoorShop  doorShop.DoorShop
-	newPaintShop paintShop.PaintShop
+	newDoorShop  doorShop
+	newPaintShop paintShop
 }
 
-func (m *manager) Bye(product []products.Product) []bool {
-	resArray := make([]bool, 0)
-	for i := 0; i < len(product); i++ {
-		switch product[i].GetType() {
-		case "door":
-			{
-				_, res := m.newDoorShop.SellDoor(product[i])
-				//fmt.Println(product[i].GetName() + " " + strconv.FormatBool(res))
-				resArray = append(resArray, res)
-			}
-		case "paint":
-			{
-				_, res := m.newPaintShop.SellPaint(product[i])
-				//fmt.Println(product[i].GetName() + " " + strconv.FormatBool(res))
-				resArray = append(resArray, res)
-			}
+//Bye функция, определяющая есть ли товар в магазине
+func (m *manager) Bye(product productInterface) bool {
+	switch product.GetType() {
+	case "door":
+		{
+			res := m.newDoorShop.SellDoor(product.GetName())
+			return res
+		}
+	case "paint":
+		{
+			res := m.newPaintShop.SellPaint(product.GetName())
+			return res
 		}
 	}
-	return resArray
+	return false
 }
 
-func InitManager() *manager {
-	var newManager manager
-	newManager.newDoorShop = doorShop.NewDoorShop()
-	newManager.newPaintShop = paintShop.NewpaintShop()
-	return &newManager
+//NewManager фабрика фасада
+func NewManager(newDoorShop doorShop, newPaintShop paintShop) Manager {
+	return &manager{newDoorShop: newDoorShop, newPaintShop: newPaintShop}
 }
-
-// func (m *manager) Add(product ...products.Product) {
-// 	for i := 0; i < len(product); i++ {
-// 		switch product[i].GetType() {
-// 		case "door":
-// 			{
-// 				m.newDoorShop.AddDoor(product[i])
-// 			}
-// 		case "paint":
-// 			{
-// 				m.newPaintShop.AddPaint(product[i])
-// 			}
-// 		}
-// 	}
-// }

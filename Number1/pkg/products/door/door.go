@@ -1,5 +1,6 @@
 package door
 
+//ProductDoor интерфейс дверей
 type ProductDoor interface {
 	GetName() (name string)
 	GetType() (name string)
@@ -19,7 +20,8 @@ func (d *door) GetType() (name string) {
 	return
 }
 
-func NewDoor(name string) *door {
+//NewDoor фабрика дверей
+func NewDoor(name string) ProductDoor {
 	newDoor := door{name: name}
 	return &newDoor
 }

@@ -1,41 +1,36 @@
 package doorShop
 
-import "github.com/Irdis01/Intern/Number1/pkg/products/door"
+type door interface {
+	GetName() (name string)
+	GetType() (name string)
+}
 
+//DoorShop интерфейс магазина дверей
 type DoorShop interface {
-	SellDoor(door door.ProductDoor) (door.ProductDoor, bool)
-	AddDoor(door door.ProductDoor)
+	SellDoor(doorName string) bool
+	AddDoor(doorInterface door)
 }
 
 type doorShop struct {
-	doorSlice []door.ProductDoor
+	doorSlice []door
 }
 
-func (d *doorShop) SellDoor(door door.ProductDoor) (door.ProductDoor, bool) {
+func (d *doorShop) SellDoor(doorName string) bool {
 	for i := 0; i < len(d.doorSlice); i++ {
-		if d.doorSlice[i].GetName() == door.GetName() {
-			defer func() {
-				if (i + 1) < len(d.doorSlice) {
-					d.doorSlice = append(d.doorSlice[:i], d.doorSlice[i+1:]...)
-				} else {
-					d.doorSlice = d.doorSlice[:i]
-				}
-			}()
-			return d.doorSlice[i], true
+		if d.doorSlice[i].GetName() == doorName {
+			return true
 		}
 	}
-	return nil, false
+	return false
 }
 
-func (d *doorShop) AddDoor(door door.ProductDoor) {
-	d.doorSlice = append(d.doorSlice, door)
+func (d *doorShop) AddDoor(newDoor door) {
+	d.doorSlice = append(d.doorSlice, newDoor)
 }
 
+//NewDoorShop фабрика магазина дверей
 func NewDoorShop() DoorShop {
 	var newDoorShop doorShop
-	newDoorShop.doorSlice = make([]door.ProductDoor, 0)
-	//добавляю две двери
-	newDoorShop.doorSlice = append(newDoorShop.doorSlice, door.NewDoor("Wooden"))
-	newDoorShop.doorSlice = append(newDoorShop.doorSlice, door.NewDoor("Steel"))
+	newDoorShop.doorSlice = make([]door, 0)
 	return &newDoorShop
 }
