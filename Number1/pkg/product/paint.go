@@ -1,10 +1,4 @@
-package paint
-
-//ProductPaint интерфейс карсок
-type ProductPaint interface {
-	GetName() (name string)
-	GetType() (name string)
-}
+package product
 
 type paint struct {
 	name string
@@ -16,7 +10,7 @@ func (p *paint) GetName() (name string) {
 }
 
 //NewPaint фабрика красок
-func NewPaint(name string) ProductPaint {
+func NewPaint(name string) Product {
 	return &paint{
 		name: name,
 	}

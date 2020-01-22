@@ -1,10 +1,4 @@
-package door
-
-//ProductDoor интерфейс дверей
-type ProductDoor interface {
-	GetName() (name string)
-	GetType() (name string)
-}
+package product
 
 type door struct {
 	name string
@@ -21,7 +15,7 @@ func (d *door) GetType() (name string) {
 }
 
 //NewDoor фабрика дверей
-func NewDoor(name string) ProductDoor {
+func NewDoor(name string) Product {
 	return &door{
 		name: name,
 	}

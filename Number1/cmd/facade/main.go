@@ -3,36 +3,30 @@ package main
 import (
 	"fmt"
 
-	"github.com/Irdis01/Intern/Number1/pkg/doorShop"
+	doorShopPkg "github.com/Irdis01/Intern/Number1/pkg/doorShop"
 	"github.com/Irdis01/Intern/Number1/pkg/facade"
-	"github.com/Irdis01/Intern/Number1/pkg/paintShop"
-	"github.com/Irdis01/Intern/Number1/pkg/products/door"
-	"github.com/Irdis01/Intern/Number1/pkg/products/paint"
+	paintShopPkg "github.com/Irdis01/Intern/Number1/pkg/paintShop"
+	"github.com/Irdis01/Intern/Number1/pkg/product"
 )
-
-type productInterface interface {
-	GetName() (name string)
-	GetType() (name string)
-}
 
 func main() {
 
-	productArray := make([]productInterface, 0)
-	productArray = append(productArray, paint.NewPaint("Red"))
-	productArray = append(productArray, paint.NewPaint("Blue"))
-	productArray = append(productArray, paint.NewPaint("Green"))
-	productArray = append(productArray, door.NewDoor("Wooden"))
-	productArray = append(productArray, door.NewDoor("Steel"))
-	productArray = append(productArray, door.NewDoor("Plastic"))
+	productArray := make([]product.Product, 0)
+	productArray = append(productArray, product.NewPaint("Red"))
+	productArray = append(productArray, product.NewPaint("Blue"))
+	productArray = append(productArray, product.NewPaint("Green"))
+	productArray = append(productArray, product.NewDoor("Wooden"))
+	productArray = append(productArray, product.NewDoor("Steel"))
+	productArray = append(productArray, product.NewDoor("Plastic"))
 
-	newDoorShop := doorShop.NewDoorShop()
-	newPaintShop := paintShop.NewpaintShop()
-	newDoorShop.AddDoor(productArray[3])
-	newDoorShop.AddDoor(productArray[4])
-	newPaintShop.AddPaint(productArray[0])
-	newPaintShop.AddPaint(productArray[1])
+	doorShop := doorShopPkg.NewDoorShop()
+	paintShop := paintShopPkg.NewpaintShop()
+	doorShop.AddDoor(productArray[3])
+	doorShop.AddDoor(productArray[4])
+	paintShop.AddPaint(productArray[0])
+	paintShop.AddPaint(productArray[1])
 
-	manager := facade.NewManager(newDoorShop, newPaintShop)
+	manager := facade.NewManager(doorShop, paintShop)
 	res := make([]bool, 0)
 	for i := 0; i < len(productArray); i++ {
 		res = append(res, manager.Check(productArray[i]))
