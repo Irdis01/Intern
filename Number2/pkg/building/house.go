@@ -27,13 +27,13 @@ func (h *house) GetDoor() string {
 
 //SetWall установка вида стен
 func (h *houseBuilder) SetWall() HouseBuilder {
-	h.wallType = "stone"
+	h.wallType = "wood"
 	return h
 }
 
 //SetDoor установка вида двери
 func (h *houseBuilder) SetDoor() HouseBuilder {
-	h.doorType = "heavy door"
+	h.doorType = "light door"
 	return h
 }
 

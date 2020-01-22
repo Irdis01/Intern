@@ -27,13 +27,13 @@ func (t *tent) GetDoor() string {
 
 //SetWall установка вида стен
 func (t *tentBuilder) SetWall() TentBuilder {
-	t.wallType = "stone"
+	t.wallType = "cloth"
 	return t
 }
 
 //SetDoor установка вида двери
 func (t *tentBuilder) SetDoor() TentBuilder {
-	t.doorType = "heavy door"
+	t.doorType = "cloth door"
 	return t
 }
 
