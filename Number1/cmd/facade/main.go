@@ -35,7 +35,7 @@ func main() {
 	manager := facade.NewManager(newDoorShop, newPaintShop)
 	res := make([]bool, 0)
 	for i := 0; i < len(productArray); i++ {
-		res = append(res, manager.Bye(productArray[i]))
+		res = append(res, manager.Check(productArray[i]))
 	}
 	test := "PASS"
 	checkArray := []bool{true, true, false, true, true, false}

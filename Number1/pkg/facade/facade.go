@@ -15,7 +15,7 @@ type paintShop interface {
 
 //Manager интерфейс фасада
 type Manager interface {
-	Bye(product productInterface) bool
+	Check(product productInterface) bool
 }
 
 type manager struct {
@@ -23,24 +23,17 @@ type manager struct {
 	newPaintShop paintShop
 }
 
-//Bye функция, определяющая есть ли товар в магазине
-func (m *manager) Bye(product productInterface) bool {
-	switch product.GetType() {
-	case "door":
-		{
-			res := m.newDoorShop.SellDoor(product.GetName())
-			return res
-		}
-	case "paint":
-		{
-			res := m.newPaintShop.SellPaint(product.GetName())
-			return res
-		}
-	}
-	return false
+//Check функция, определяющая есть ли товар в магазине
+func (m *manager) Check(product productInterface) bool {
+	res1 := m.newDoorShop.SellDoor(product.GetName())
+	res2 := m.newPaintShop.SellPaint(product.GetName())
+	return res1 || res2
 }
 
 //NewManager фабрика фасада
 func NewManager(newDoorShop doorShop, newPaintShop paintShop) Manager {
-	return &manager{newDoorShop: newDoorShop, newPaintShop: newPaintShop}
+	return &manager{
+		newDoorShop:  newDoorShop,
+		newPaintShop: newPaintShop,
+	}
 }

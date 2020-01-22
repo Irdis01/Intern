@@ -12,7 +12,7 @@ type door struct {
 
 func (d *door) GetName() (name string) {
 	name = d.name
-	return name
+	return
 }
 
 func (d *door) GetType() (name string) {
@@ -22,6 +22,7 @@ func (d *door) GetType() (name string) {
 
 //NewDoor фабрика дверей
 func NewDoor(name string) ProductDoor {
-	newDoor := door{name: name}
-	return &newDoor
+	return &door{
+		name: name,
+	}
 }

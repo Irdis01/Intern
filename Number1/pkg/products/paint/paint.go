@@ -17,8 +17,9 @@ func (p *paint) GetName() (name string) {
 
 //NewPaint фабрика красок
 func NewPaint(name string) ProductPaint {
-	newPaint := paint{name: name}
-	return &newPaint
+	return &paint{
+		name: name,
+	}
 }
 
 func (p *paint) GetType() (name string) {

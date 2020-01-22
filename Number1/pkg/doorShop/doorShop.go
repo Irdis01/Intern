@@ -30,7 +30,7 @@ func (d *doorShop) AddDoor(newDoor door) {
 
 //NewDoorShop фабрика магазина дверей
 func NewDoorShop() DoorShop {
-	var newDoorShop doorShop
-	newDoorShop.doorSlice = make([]door, 0)
-	return &newDoorShop
+	return &doorShop{
+		doorSlice: make([]door, 0),
+	}
 }

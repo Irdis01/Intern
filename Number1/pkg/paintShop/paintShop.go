@@ -30,7 +30,7 @@ func (p *paintShop) AddPaint(newPaint paint) {
 
 //NewpaintShop фабрика магазина красок
 func NewpaintShop() PaintShop {
-	var newpaintShop paintShop
-	newpaintShop.paintSlice = make([]paint, 0)
-	return &newpaintShop
+	return &paintShop{
+		paintSlice: make([]paint, 0),
+	}
 }
