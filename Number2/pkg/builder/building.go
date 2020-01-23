@@ -1,6 +1,6 @@
 package building
 
-//Building интерфейс зданий
+// Building интерфейс зданий
 type Building interface {
 	GetWall() string
 	GetDoor() string

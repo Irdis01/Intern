@@ -3,28 +3,26 @@ package main
 import (
 	"fmt"
 
-	"github.com/Irdis01/Intern/Number2/pkg/building"
+	building "github.com/Irdis01/Intern/Number2/pkg/builder"
 )
 
 func main() {
 	var (
 		myBuilding building.Building
-		myBuilder  building.Builder
 	)
 	buildingType := "tent"
-	myBuilder = building.NewBuilder()
 	switch buildingType {
 	case "castle":
 		{
-			myBuilding = myBuilder.NewCastle()
+			myBuilding = building.NewCastle()
 		}
 	case "house":
 		{
-			myBuilding = myBuilder.NewHouse()
+			myBuilding = building.NewHouse()
 		}
 	case "tent":
 		{
-			myBuilding = myBuilder.NewTent()
+			myBuilding = building.NewTent()
 		}
 	}
 
