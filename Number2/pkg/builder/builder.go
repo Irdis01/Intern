@@ -5,13 +5,6 @@ type builder struct {
 	doorType string
 }
 
-// Builder интерфейс строителя
-type Builder interface {
-	NewCastle() Building
-	NewHouse() Building
-	NewTent() Building
-}
-
 // NewCastle возвращает новый замок
 func NewCastle() Building {
 	builder := newBuilder()
