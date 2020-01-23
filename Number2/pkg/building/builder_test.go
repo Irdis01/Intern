@@ -13,19 +13,17 @@ func TestBuilder(t *testing.T) {
 		{"wood", "light door"},
 		{"cloth", "cloth door"},
 	}
-	castleBuilder := NewCastleBuilder()
-	houseBuilder := NewHouseBuilder()
-	tentBuilder := NewTentBuilder()
+	builder := NewBuilder()
 
-	castle := castleBuilder.SetWall().SetDoor().GetBuilding()
+	castle := builder.NewCastle()
 	if (castle.GetWall() != cases[0].wantBuildingWall) || (castle.GetDoor() != cases[0].wantBuildingDoor) {
 		t.Error()
 	}
-	house := houseBuilder.SetWall().SetDoor().GetBuilding()
+	house := builder.NewHouse()
 	if (house.GetWall() != cases[1].wantBuildingWall) || (house.GetDoor() != cases[1].wantBuildingDoor) {
 		t.Error()
 	}
-	tent := tentBuilder.SetWall().SetDoor().GetBuilding()
+	tent := builder.NewTent()
 	if (tent.GetWall() != cases[2].wantBuildingWall) || (tent.GetDoor() != cases[2].wantBuildingDoor) {
 		t.Error()
 	}

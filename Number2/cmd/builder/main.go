@@ -7,23 +7,24 @@ import (
 )
 
 func main() {
-	var myBuilding building.Building
-	builderType := "tent"
-	switch builderType {
+	var (
+		myBuilding building.Building
+		myBuilder  building.Builder
+	)
+	buildingType := "tent"
+	myBuilder = building.NewBuilder()
+	switch buildingType {
 	case "castle":
 		{
-			builder := building.NewCastleBuilder()
-			myBuilding = builder.SetDoor().SetWall().GetBuilding()
+			myBuilding = myBuilder.NewCastle()
 		}
 	case "house":
 		{
-			builder := building.NewHouseBuilder()
-			myBuilding = builder.SetDoor().SetWall().GetBuilding()
+			myBuilding = myBuilder.NewHouse()
 		}
 	case "tent":
 		{
-			builder := building.NewTentBuilder()
-			myBuilding = builder.SetDoor().SetWall().GetBuilding()
+			myBuilding = myBuilder.NewTent()
 		}
 	}
 
