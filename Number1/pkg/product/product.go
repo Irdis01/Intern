@@ -1,6 +1,7 @@
 package product
 
+//Product интерфейс продуктов
 type Product interface {
-	GetName() string
-	GetType() string
+	GetName() (name string)
+	GetType() (productType string)
 }

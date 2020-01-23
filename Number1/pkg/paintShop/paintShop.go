@@ -7,7 +7,7 @@ type paint interface {
 
 //PaintShop Интерфейс магазина красок
 type PaintShop interface {
-	SellPaint(paint string) bool
+	CheckPaintAvailable(paint string) (result bool)
 	AddPaint(newPaint paint)
 }
 
@@ -15,15 +15,19 @@ type paintShop struct {
 	paintSlice []paint
 }
 
-func (p *paintShop) SellPaint(paintName string) bool {
+//CheckPaintAvailable проверка наналичие краскив магазине
+func (p *paintShop) CheckPaintAvailable(paintName string) (result bool) {
 	for i := 0; i < len(p.paintSlice); i++ {
 		if p.paintSlice[i].GetName() == paintName {
-			return true
+			result = true
+			return
 		}
 	}
-	return false
+	result = false
+	return
 }
 
+//AddPaint добавление красок в магазин
 func (p *paintShop) AddPaint(newPaint paint) {
 	p.paintSlice = append(p.paintSlice, newPaint)
 }

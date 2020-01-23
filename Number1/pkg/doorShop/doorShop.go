@@ -7,7 +7,7 @@ type door interface {
 
 //DoorShop интерфейс магазина дверей
 type DoorShop interface {
-	SellDoor(doorName string) bool
+	CheckDoorAvailable(doorName string) (result bool)
 	AddDoor(doorInterface door)
 }
 
@@ -15,15 +15,19 @@ type doorShop struct {
 	doorSlice []door
 }
 
-func (d *doorShop) SellDoor(doorName string) bool {
+//CheckDoorAvailable проверка наналичие двери в магазине
+func (d *doorShop) CheckDoorAvailable(doorName string) (result bool) {
 	for i := 0; i < len(d.doorSlice); i++ {
 		if d.doorSlice[i].GetName() == doorName {
-			return true
+			result = true
+			return
 		}
 	}
-	return false
+	result = false
+	return
 }
 
+//AddDoor добавление двери в магазин
 func (d *doorShop) AddDoor(newDoor door) {
 	d.doorSlice = append(d.doorSlice, newDoor)
 }

@@ -6,16 +6,16 @@ type productInterface interface {
 }
 
 type doorShop interface {
-	SellDoor(name string) bool
+	CheckDoorAvailable(name string) (result bool)
 }
 
 type paintShop interface {
-	SellPaint(name string) bool
+	CheckPaintAvailable(name string) (result bool)
 }
 
 //Manager интерфейс фасада
 type Manager interface {
-	Check(product productInterface) bool
+	Check(product productInterface) (result bool)
 }
 
 type manager struct {
@@ -25,8 +25,8 @@ type manager struct {
 
 //Check функция, определяющая есть ли товар в магазине
 func (m *manager) Check(product productInterface) bool {
-	res1 := m.newDoorShop.SellDoor(product.GetName())
-	res2 := m.newPaintShop.SellPaint(product.GetName())
+	res1 := m.newDoorShop.CheckDoorAvailable(product.GetName())
+	res2 := m.newPaintShop.CheckPaintAvailable(product.GetName())
 	return res1 || res2
 }
 
