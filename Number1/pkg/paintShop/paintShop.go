@@ -2,10 +2,9 @@ package paintShop
 
 type paint interface {
 	GetName() (name string)
-	GetType() (name string)
 }
 
-//PaintShop Интерфейс магазина красок
+// PaintShop Интерфейс магазина красок
 type PaintShop interface {
 	CheckPaintAvailable(paint string) (result bool)
 	AddPaint(newPaint paint)
@@ -15,26 +14,27 @@ type paintShop struct {
 	paintSlice []paint
 }
 
-//CheckPaintAvailable проверка наналичие краскив магазине
+//C heckPaintAvailable проверка наналичие краскив магазине
 func (p *paintShop) CheckPaintAvailable(paintName string) (result bool) {
 	for i := 0; i < len(p.paintSlice); i++ {
 		if p.paintSlice[i].GetName() == paintName {
-			result = true
-			return
+			return true
 		}
 	}
-	result = false
-	return
+	return false
 }
 
-//AddPaint добавление красок в магазин
+// AddPaint добавление красок в магазин
 func (p *paintShop) AddPaint(newPaint paint) {
-	p.paintSlice = append(p.paintSlice, newPaint)
+	if p.paintSlice == nil {
+		p.paintSlice = make([]paint, 1)
+		p.paintSlice[0] = newPaint
+	} else {
+		p.paintSlice = append(p.paintSlice, newPaint)
+	}
 }
 
-//NewpaintShop фабрика магазина красок
-func NewpaintShop() PaintShop {
-	return &paintShop{
-		paintSlice: make([]paint, 0),
-	}
+// NewPaintShop фабрика магазина красок
+func NewPaintShop() PaintShop {
+	return &paintShop{}
 }

@@ -2,7 +2,6 @@ package facade
 
 type productInterface interface {
 	GetName() (name string)
-	GetType() (name string)
 }
 
 type doorShop interface {
@@ -13,7 +12,7 @@ type paintShop interface {
 	CheckPaintAvailable(name string) (result bool)
 }
 
-//Manager интерфейс фасада
+// Manager интерфейс фасада
 type Manager interface {
 	Check(product productInterface) (result bool)
 }
@@ -23,14 +22,14 @@ type manager struct {
 	newPaintShop paintShop
 }
 
-//Check функция, определяющая есть ли товар в магазине
+// Check функция, определяющая есть ли товар в магазине
 func (m *manager) Check(product productInterface) bool {
-	res1 := m.newDoorShop.CheckDoorAvailable(product.GetName())
-	res2 := m.newPaintShop.CheckPaintAvailable(product.GetName())
-	return res1 || res2
+	doorShopResult := m.newDoorShop.CheckDoorAvailable(product.GetName())
+	paintShoppResult := m.newPaintShop.CheckPaintAvailable(product.GetName())
+	return doorShopResult || paintShoppResult
 }
 
-//NewManager фабрика фасада
+// NewManager фабрика фасада
 func NewManager(newDoorShop doorShop, newPaintShop paintShop) Manager {
 	return &manager{
 		newDoorShop:  newDoorShop,

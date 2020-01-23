@@ -10,7 +10,6 @@ import (
 
 type productInterfaceTest interface {
 	GetName() (name string)
-	GetType() (name string)
 }
 
 func TestFacade(t *testing.T) {
@@ -18,26 +17,29 @@ func TestFacade(t *testing.T) {
 		in   productInterfaceTest
 		want bool
 	}{
-		{product.NewPaint("Red"), true},
-		{product.NewPaint("Blue"), true},
-		{product.NewPaint("Green"), false},
-		{product.NewDoor("Wooden"), true},
-		{product.NewDoor("Steel"), true},
-		{product.NewDoor("Plastic"), false},
+		{product.NewProduct("Red"), true},
+		{product.NewProduct("Blue"), true},
+		{product.NewProduct("Green"), false},
+		{product.NewProduct("Wooden"), true},
+		{product.NewProduct("Steel"), true},
+		{product.NewProduct("Plastic"), false},
 	}
 
 	doorShop := doorShopPkg.NewDoorShop()
-	paintShop := paintShopPkg.NewpaintShop()
+	paintShop := paintShopPkg.NewPaintShop()
 
-	doorShop.AddDoor(product.NewDoor("Wooden"))
-	doorShop.AddDoor(product.NewDoor("Steel"))
-	paintShop.AddPaint(product.NewPaint("Red"))
-	paintShop.AddPaint(product.NewPaint("Blue"))
+	doorShop.AddDoor(product.NewProduct("Wooden"))
+	doorShop.AddDoor(product.NewProduct("Steel"))
+	paintShop.AddPaint(product.NewProduct("Red"))
+	paintShop.AddPaint(product.NewProduct("Blue"))
 	manager := NewManager(doorShop, paintShop)
-	for _, val := range cases {
-		res := manager.Check(val.in)
-		if res != val.want {
-			t.Error()
+
+	t.Run("facadeTest", func(t *testing.T) {
+		for _, val := range cases {
+			res := manager.Check(val.in)
+			if res != val.want {
+				t.Error()
+			}
 		}
-	}
+	})
 }

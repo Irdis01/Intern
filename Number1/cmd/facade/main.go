@@ -12,15 +12,15 @@ import (
 func main() {
 
 	productArray := make([]product.Product, 0)
-	productArray = append(productArray, product.NewPaint("Red"))
-	productArray = append(productArray, product.NewPaint("Blue"))
-	productArray = append(productArray, product.NewPaint("Green"))
-	productArray = append(productArray, product.NewDoor("Wooden"))
-	productArray = append(productArray, product.NewDoor("Steel"))
-	productArray = append(productArray, product.NewDoor("Plastic"))
+	productArray = append(productArray, product.NewProduct("Red"))
+	productArray = append(productArray, product.NewProduct("Blue"))
+	productArray = append(productArray, product.NewProduct("Green"))
+	productArray = append(productArray, product.NewProduct("Wooden"))
+	productArray = append(productArray, product.NewProduct("Steel"))
+	productArray = append(productArray, product.NewProduct("Plastic"))
 
 	doorShop := doorShopPkg.NewDoorShop()
-	paintShop := paintShopPkg.NewpaintShop()
+	paintShop := paintShopPkg.NewPaintShop()
 	doorShop.AddDoor(productArray[3])
 	doorShop.AddDoor(productArray[4])
 	paintShop.AddPaint(productArray[0])
