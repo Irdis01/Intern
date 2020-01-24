@@ -6,6 +6,7 @@ import (
 	doorShopPkg "github.com/Irdis01/Intern/Number1/pkg/doorShop"
 	paintShopPkg "github.com/Irdis01/Intern/Number1/pkg/paintShop"
 	"github.com/Irdis01/Intern/Number1/pkg/product"
+	"github.com/stretchr/testify/assert"
 )
 
 type productInterfaceTest interface {
@@ -37,9 +38,7 @@ func TestFacade(t *testing.T) {
 	t.Run("facadeTest", func(t *testing.T) {
 		for _, val := range cases {
 			res := manager.Check(val.in)
-			if res != val.want {
-				t.Error()
-			}
+			assert.EqualValues(t, val.want, res)
 		}
 	})
 }
