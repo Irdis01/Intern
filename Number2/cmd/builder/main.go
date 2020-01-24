@@ -10,19 +10,20 @@ func main() {
 	var (
 		myBuilding building.Building
 	)
+	builder := building.NewBuilder()
 	buildingType := "tent"
 	switch buildingType {
 	case "castle":
 		{
-			myBuilding = building.NewCastle()
+			myBuilding = builder.NewCastle()
 		}
 	case "house":
 		{
-			myBuilding = building.NewHouse()
+			myBuilding = builder.NewHouse()
 		}
 	case "tent":
 		{
-			myBuilding = building.NewTent()
+			myBuilding = builder.NewTent()
 		}
 	}
 

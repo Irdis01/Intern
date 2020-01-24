@@ -6,6 +6,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	builderTest = "builder test"
+)
+
 func TestBuilder(t *testing.T) {
 	cases := []struct {
 		wantBuildingWall string
@@ -15,9 +19,15 @@ func TestBuilder(t *testing.T) {
 		{"wood", "light door"},
 		{"cloth", "none"},
 	}
-
-	testBuildings := []Building{NewCastle(), NewHouse(), NewTent()}
-	t.Run("Builder test", func(t *testing.T) {
+	builder := NewBuilder()
+	castle := builder.NewCastle()
+	builder.DropBuilder()
+	house := builder.NewHouse()
+	builder.DropBuilder()
+	tent := builder.NewTent()
+	builder.DropBuilder()
+	testBuildings := []Building{castle, house, tent}
+	t.Run(builderTest, func(t *testing.T) {
 		for i, val := range testBuildings {
 			assert.Equal(t, val.GetDoor(), cases[i].wantBuildingDoor)
 			assert.Equal(t, val.GetWall(), cases[i].wantBuildingWall)
