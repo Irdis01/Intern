@@ -2,6 +2,8 @@ package building
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestBuilder(t *testing.T) {
@@ -13,18 +15,12 @@ func TestBuilder(t *testing.T) {
 		{"wood", "light door"},
 		{"cloth", "none"},
 	}
+
+	testBuildings := []Building{NewCastle(), NewHouse(), NewTent()}
 	t.Run("Builder test", func(t *testing.T) {
-		castle := NewCastle()
-		if (castle.GetWall() != cases[0].wantBuildingWall) || (castle.GetDoor() != cases[0].wantBuildingDoor) {
-			t.Error()
-		}
-		house := NewHouse()
-		if (house.GetWall() != cases[1].wantBuildingWall) || (house.GetDoor() != cases[1].wantBuildingDoor) {
-			t.Error()
-		}
-		tent := NewTent()
-		if (tent.GetWall() != cases[2].wantBuildingWall) || (tent.GetDoor() != cases[2].wantBuildingDoor) {
-			t.Error()
+		for i, val := range testBuildings {
+			assert.Equal(t, val.GetDoor(), cases[i].wantBuildingDoor)
+			assert.Equal(t, val.GetWall(), cases[i].wantBuildingWall)
 		}
 	})
 }
