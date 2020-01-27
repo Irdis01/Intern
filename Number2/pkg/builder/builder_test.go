@@ -21,11 +21,8 @@ func TestBuilder(t *testing.T) {
 	}
 	builder := NewBuilder()
 	castle := builder.NewCastle()
-	builder.DropBuilder()
 	house := builder.NewHouse()
-	builder.DropBuilder()
 	tent := builder.NewTent()
-	builder.DropBuilder()
 	testBuildings := []Building{castle, house, tent}
 	t.Run(builderTest, func(t *testing.T) {
 		for i, val := range testBuildings {

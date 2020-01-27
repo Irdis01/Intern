@@ -5,7 +5,6 @@ type Builder interface {
 	NewCastle() Building
 	NewHouse() Building
 	NewTent() Building
-	DropBuilder()
 }
 
 type builder struct {
@@ -29,7 +28,7 @@ func (b *builder) NewTent() Building {
 }
 
 //DropBuilder сбрасывает поля строителя
-func (b *builder) DropBuilder() {
+func (b *builder) dropBuilder() {
 	b.setDoor("none")
 	b.setWall("none")
 }
@@ -45,6 +44,7 @@ func (b *builder) setDoor(doorType string) *builder {
 }
 
 func (b *builder) build() Building {
+	defer b.dropBuilder()
 	return &building{
 		wallType: b.wallType,
 		doorType: b.doorType,

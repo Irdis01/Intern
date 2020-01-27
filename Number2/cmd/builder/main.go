@@ -11,22 +11,13 @@ func main() {
 		myBuilding building.Building
 	)
 	builder := building.NewBuilder()
-	buildingType := "tent"
-	switch buildingType {
-	case "castle":
-		{
-			myBuilding = builder.NewCastle()
-		}
-	case "house":
-		{
-			myBuilding = builder.NewHouse()
-		}
-	case "tent":
-		{
-			myBuilding = builder.NewTent()
-		}
+	town := make([]building.Building, 1) //город, состоящий из замка, 4 зданий и 10 палаток
+	town[0] = builder.NewCastle()
+	for i := 0; i < 4; i++ {
+		town = append(town, builder.NewHouse())
 	}
-
+	for i := 0; i < 10; i++ {
+		town = append(town, builder.NewTent())
+	}
 	fmt.Println(myBuilding.GetWall())
-
 }
