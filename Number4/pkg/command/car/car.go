@@ -2,19 +2,22 @@ package car
 
 import "errors"
 
+// Car интерфейс автомобиля
+type Car interface {
+	StartEngine()
+	StopEngine() error
+	TurnOnHandbrake() error
+	TurnOffHandbrake()
+	StartMove() error
+	Accelerate() error
+	Slowdown() error
+	GetSpeed() int
+}
+
 type car struct {
-	turnSignalState bool
-	engineState     bool
-	handbrakeState  bool
-	speed           int
-}
-
-func (c *car) TurnOnTurnSignal() {
-	c.turnSignalState = true
-}
-
-func (c *car) TurnOfTurnSignal() {
-	c.turnSignalState = false
+	engineState    bool
+	handbrakeState bool
+	speed          int
 }
 
 func (c *car) StartEngine() {
@@ -31,12 +34,17 @@ func (c *car) StopEngine() (err error) {
 	}
 }
 
-func (c *car) TurnOnHandbrake() {
-	c.turnSignalState = true
+func (c *car) TurnOnHandbrake() (err error) {
+	if (c.speed == 0) && (!c.engineState) {
+		c.handbrakeState = true
+	} else {
+		err = errors.New("stop the car and turn off engine")
+	}
+	return
 }
 
 func (c *car) TurnOffHandbrake() {
-	c.turnSignalState = false
+	c.handbrakeState = false
 }
 
 func (c *car) StartMove() (err error) {
@@ -49,16 +57,34 @@ func (c *car) StartMove() (err error) {
 	}
 }
 
-func (c *car) Accelerate() {
-	c.speed += 10
+func (c *car) Accelerate() (err error) {
+	if c.engineState {
+		c.speed += 10
+	} else {
+		err = errors.New("car can't moving")
+	}
+	return
 }
 
 func (c *car) Slowdown() (err error) {
-	if c.speed > 0 {
+	if (c.speed > 0) && (c.engineState) {
 		c.speed -= 10
 		return
 	} else {
-		err = errors.New("speed is zero")
+		err = errors.New("speed is zero or car can't moving")
 		return
+	}
+}
+
+func (c *car) GetSpeed() (speed int) {
+	return c.speed
+}
+
+// NewCar  конструктор нового автомобиля
+func NewCar() Car {
+	return &car{
+		engineState:    false,
+		handbrakeState: true,
+		speed:          0,
 	}
 }
