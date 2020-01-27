@@ -15,6 +15,9 @@ func main() {
 	respService := service.NewService()
 	userAuth := authentication.NewAuthentificator(baseMapper, userRegistrator, respService)
 	msg := make([]byte, 0)
-	userAuth.ConnectUser("1", "1", &msg)
+	err := userAuth.ConnectUser("1", "1", &msg)
+	log.Println(err)
 	log.Println(string(msg))
+	err = userAuth.ConnectUser("1", "2", &msg)
+	log.Println(err)
 }
