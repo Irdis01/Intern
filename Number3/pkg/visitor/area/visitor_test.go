@@ -3,7 +3,7 @@ package area
 import (
 	"testing"
 
-	"github.com/Irdis01/Intern/Number3/pkg/visitor/figure"
+	"github.com/Irdis01/Intern/Number3/pkg/figure"
 	"github.com/stretchr/testify/assert"
 )
 

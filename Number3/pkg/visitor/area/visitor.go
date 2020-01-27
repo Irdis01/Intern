@@ -3,7 +3,7 @@ package area
 import (
 	"math"
 
-	"github.com/Irdis01/Intern/Number3/pkg/visitor/figure"
+	"github.com/Irdis01/Intern/Number3/pkg/figure"
 )
 
 // Visiter интерфейс посетителя

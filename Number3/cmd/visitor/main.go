@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
+	"github.com/Irdis01/Intern/Number3/pkg/figure"
 	"github.com/Irdis01/Intern/Number3/pkg/visitor/area"
-	"github.com/Irdis01/Intern/Number3/pkg/visitor/figure"
 )
 
 func main() {
