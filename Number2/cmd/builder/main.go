@@ -1,23 +1,17 @@
 package main
 
 import (
-	"fmt"
-
-	building "github.com/Irdis01/Intern/Number2/pkg/builder"
+	"github.com/Irdis01/Intern/Number2/pkg/builder"
 )
 
 func main() {
-	var (
-		myBuilding building.Building
-	)
-	builder := building.NewBuilder()
-	town := make([]building.Building, 1) //город, состоящий из замка, 4 зданий и 10 палаток
-	town[0] = builder.NewCastle()
+	townBuilder := builder.NewBuilder()
+	town := make([]builder.Building, 1) //город, состоящий из замка, 4 зданий и 10 палаток
+	town[0] = townBuilder.NewCastle()
 	for i := 0; i < 4; i++ {
-		town = append(town, builder.NewHouse())
+		town = append(town, townBuilder.NewHouse())
 	}
 	for i := 0; i < 10; i++ {
-		town = append(town, builder.NewTent())
+		town = append(town, townBuilder.NewTent())
 	}
-	fmt.Println(myBuilding.GetWall())
 }

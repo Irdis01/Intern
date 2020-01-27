@@ -1,4 +1,4 @@
-package building
+package builder
 
 // Building интерфейс зданий
 type Building interface {

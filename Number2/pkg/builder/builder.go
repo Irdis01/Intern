@@ -1,4 +1,4 @@
-package building
+package builder
 
 // Builder интерфейс строителя
 type Builder interface {
