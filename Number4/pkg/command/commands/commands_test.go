@@ -10,9 +10,10 @@ import (
 )
 
 const (
-	rightCycleTest            = "no errors test"
+	commandSuccessTest        = "no errors test"
+	commandErrorTest          = "command error test"
 	cancelTest                = "cancel command test"
-	wrongStopTest             = "error in srop, cause has speed"
+	wrongStopTest             = "error in stop, cause has speed"
 	stopTestError             = "car is moving"
 	withoutStartAccTest       = "without start command accelerate test"
 	withoutStartTestAccError  = "car can't moving"
@@ -24,71 +25,64 @@ const (
 
 func TestCommand(t *testing.T) {
 
-	resultRightCycle := []int{10, 20, 10, 0}
-	resultCancelTest := 10
+	expectSuccessTest := []int{10, 20, 10, 0}
+	expectErrorTest := []string{
+		"car is moving",
+		"car can't moving",
+		"speed is zero or car can't moving",
+		"speed is zero or car can't moving",
+	}
 
-	t.Run(rightCycleTest, func(t *testing.T) {
+	preparedDriverForTest := makeErrorCommandTest()
+
+	t.Run(commandSuccessTest, func(t *testing.T) {
 		testDriver := driver.NewDriver()
 		testCar := carPkg.NewCar()
 		testDriver.StoreCommand(NewStartCommand(testCar))
 		testDriver.StoreCommand(NewAccelerateCommand(testCar))
 		testDriver.StoreCommand(NewSlowDownCommand(testCar))
 		testDriver.StoreCommand(NewStopCommand(testCar))
-		for i := 0; i < len(resultRightCycle); i++ {
+		for i := 0; i < len(expectSuccessTest); i++ {
 			err := testDriver.Execute()
 			if assert.NoError(t, err, "unexpected error") {
-				assert.Equal(t, resultRightCycle[i], testCar.GetSpeed())
+				assert.Equal(t, expectSuccessTest[i], testCar.GetSpeed())
 			}
 		}
 	})
 
-	t.Run(cancelTest, func(t *testing.T) {
-		testDriver := driver.NewDriver()
-		testCar := carPkg.NewCar()
-		testDriver.StoreCommand(NewStartCommand(testCar))
-		testDriver.StoreCommand(NewAccelerateCommand(testCar))
-		testDriver.Execute()
-		testDriver.Execute()
-		testDriver.Cancel()
-		assert.Equal(t, testCar.GetSpeed(), resultCancelTest)
+	t.Run(commandErrorTest, func(t *testing.T) {
+		for i := 0; i < len(preparedDriverForTest); i++ {
+			err := preparedDriverForTest[i].Execute()
+			assert.Equal(t, expectErrorTest[i], err.Error())
+		}
 	})
+}
 
-	t.Run(wrongStopTest, func(t *testing.T) {
-		testDriver := driver.NewDriver()
-		testCar := carPkg.NewCar()
-		testDriver.StoreCommand(NewStartCommand(testCar))
-		testDriver.StoreCommand(NewAccelerateCommand(testCar))
-		testDriver.StoreCommand(NewStopCommand(testCar))
-		testDriver.Execute()
-		testDriver.Execute()
-		err := testDriver.Execute()
-		assert.Equal(t, stopTestError, err.Error())
-	})
+func makeErrorCommandTest() (testDriver [4]driver.Driver) {
 
-	t.Run(withoutStartAccTest, func(t *testing.T) {
-		testDriver := driver.NewDriver()
-		testCar := carPkg.NewCar()
-		testDriver.StoreCommand(NewAccelerateCommand(testCar))
-		testDriver.StoreCommand(NewSlowDownCommand(testCar))
-		err := testDriver.Execute()
-		assert.Equal(t, withoutStartTestAccError, err.Error())
-		err = testDriver.Execute()
-		assert.Equal(t, withoutStartTestAccError, err.Error())
-	})
+	/// wrongStopTest
+	testDriver[0] = driver.NewDriver()
+	testCar := carPkg.NewCar()
+	testDriver[0].StoreCommand(NewStartCommand(testCar))
+	testDriver[0].StoreCommand(NewAccelerateCommand(testCar))
+	testDriver[0].StoreCommand(NewStopCommand(testCar))
+	testDriver[0].Execute()
+	testDriver[0].Execute()
 
-	t.Run(withoutStartSlowTest, func(t *testing.T) {
-		testDriver := driver.NewDriver()
-		testCar := carPkg.NewCar()
-		testDriver.StoreCommand(NewSlowDownCommand(testCar))
-		err := testDriver.Execute()
-		assert.Equal(t, withoutStartTestSlowError, err.Error())
-	})
+	/// withoutStartAccTest
+	testDriver[1] = driver.NewDriver()
+	testCar = carPkg.NewCar()
+	testDriver[1].StoreCommand(NewAccelerateCommand(testCar))
 
-	t.Run(withoutStartStopTest, func(t *testing.T) {
-		testDriver := driver.NewDriver()
-		testCar := carPkg.NewCar()
-		testDriver.StoreCommand(NewSlowDownCommand(testCar))
-		err := testDriver.Execute()
-		assert.Equal(t, withoutStartStopTestError, err.Error())
-	})
+	/// withoutStartSlowTest
+	testDriver[2] = driver.NewDriver()
+	testCar = carPkg.NewCar()
+	testDriver[2].StoreCommand(NewSlowDownCommand(testCar))
+
+	/// withoutStartStopTest
+	testDriver[3] = driver.NewDriver()
+	testCar = carPkg.NewCar()
+	testDriver[3].StoreCommand(NewSlowDownCommand(testCar))
+
+	return
 }
