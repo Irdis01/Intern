@@ -1,6 +1,6 @@
 package builder
 
-// Builder интерфейс строителя
+// Builder interface of builder
 type Builder interface {
 	NewCastle() Building
 	NewHouse() Building
@@ -12,22 +12,21 @@ type builder struct {
 	doorType string
 }
 
-// NewCastle возвращает новый замок
+// NewCastle return new castle
 func (b *builder) NewCastle() Building {
 	return b.setDoor("heavy door").setWall("stone").build()
 }
 
-// NewHouse возвращает новый дом
+// NewHouse return new house
 func (b *builder) NewHouse() Building {
 	return b.setDoor("light door").setWall("wood").build()
 }
 
-//NewTent возвращает новую палатку
+//NewTent return new ten
 func (b *builder) NewTent() Building {
 	return b.setWall("cloth").build()
 }
 
-//DropBuilder сбрасывает поля строителя
 func (b *builder) drop() {
 	b.setDoor("none")
 	b.setWall("none")
@@ -51,7 +50,7 @@ func (b *builder) build() Building {
 	}
 }
 
-// NewBuilder конструктор нового строителя
+// NewBuilder return new builder
 func NewBuilder() Builder {
 	return &builder{
 		wallType: "none",

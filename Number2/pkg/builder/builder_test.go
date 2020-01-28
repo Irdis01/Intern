@@ -26,8 +26,8 @@ func TestBuilder(t *testing.T) {
 	testBuildings := []Building{castle, house, tent}
 	t.Run(builderTest, func(t *testing.T) {
 		for i, val := range testBuildings {
-			assert.Equal(t, val.GetDoor(), cases[i].wantBuildingDoor)
-			assert.Equal(t, val.GetWall(), cases[i].wantBuildingWall)
+			assert.Equal(t, val.GetDoorType(), cases[i].wantBuildingDoor)
+			assert.Equal(t, val.GetWallType(), cases[i].wantBuildingWall)
 		}
 	})
 }
