@@ -1,18 +1,30 @@
 package main
 
 import (
-	"github.com/Irdis01/Intern/Number1/pkg/bath"
+	"github.com/Irdis01/Intern/Number1/pkg/chandelier"
+	"github.com/Irdis01/Intern/Number1/pkg/crane"
 	"github.com/Irdis01/Intern/Number1/pkg/facade"
-	"github.com/Irdis01/Intern/Number1/pkg/light"
 	"github.com/Irdis01/Intern/Number1/pkg/microwave"
 	"github.com/Irdis01/Intern/Number1/pkg/models"
 )
 
 func main() {
 	ownerFood := models.Food{Temp: 10}
-	smartBath := bath.NewBath()
-	smartLamp := light.NewLight()
-	smartMicrowave := microwave.NewMicrowave(ownerFood)
-	smartHouse := facade.NewFacade(smartBath, smartMicrowave, smartLamp)
-	smartHouse.PrepForOwner(30, 70)
+	ownerLamp := models.Lamp{
+		LightState:   false,
+		IsBurnOut:    false,
+		MaxWorkCycle: 10,
+		WorkCycle:    0,
+	}
+	ownerBath := models.Bath{
+		Volume:    0,
+		MaxVolume: 10,
+	}
+	smartCrane := crane.NewCrane(&ownerBath)
+	smartChandelier := chandelier.NewChandelier()
+	smartChandelier.Add(&ownerLamp)
+	smartMicrowave := microwave.NewMicrowave()
+	smartMicrowave.Add(&ownerFood)
+	smartHouse := facade.NewFacade(smartCrane, smartMicrowave, smartChandelier)
+	smartHouse.Prepare(30, 70)
 }
