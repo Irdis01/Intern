@@ -2,8 +2,7 @@ package builder
 
 // Building интерфейс зданий
 type Building interface {
-	GetWall() string
-	GetDoor() string
+	CalculateDefence(map[string]int) int
 }
 
 type building struct {
@@ -11,10 +10,6 @@ type building struct {
 	doorType string
 }
 
-func (b *building) GetWall() string {
-	return b.wallType
-}
-
-func (b *building) GetDoor() string {
-	return b.doorType
+func (b *building) CalculateDefence(defenceMap map[string]int) int {
+	return defenceMap[b.doorType]+defenceMap[b.wallType]
 }

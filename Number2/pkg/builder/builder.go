@@ -28,7 +28,7 @@ func (b *builder) NewTent() Building {
 }
 
 //DropBuilder сбрасывает поля строителя
-func (b *builder) dropBuilder() {
+func (b *builder) drop() {
 	b.setDoor("none")
 	b.setWall("none")
 }
@@ -44,7 +44,7 @@ func (b *builder) setDoor(doorType string) *builder {
 }
 
 func (b *builder) build() Building {
-	defer b.dropBuilder()
+	defer b.drop()
 	return &building{
 		wallType: b.wallType,
 		doorType: b.doorType,
