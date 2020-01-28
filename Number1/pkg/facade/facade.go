@@ -1,38 +1,38 @@
 package facade
 
-type productInterface interface {
-	GetName() (name string)
+type bath interface {
+	FillUp(volume int)
 }
 
-type doorShop interface {
-	CheckDoorAvailable(name string) (result bool)
+type light interface {
+	TurnOn()
 }
 
-type paintShop interface {
-	CheckPaintAvailable(name string) (result bool)
+type microwave interface {
+	StartHeat(temp int)
 }
 
 // Manager интерфейс фасада
-type Manager interface {
-	Check(product productInterface) (result bool)
+type Facade interface {
+	PrepForOwner(waterTemp int, foodTemp int)
 }
 
-type manager struct {
-	newDoorShop  doorShop
-	newPaintShop paintShop
+type facade struct {
+	ownerBath      bath
+	ownerLight     light
+	ownerMicrowave microwave
 }
 
-// Check функция, определяющая есть ли товар в магазине
-func (m *manager) Check(product productInterface) bool {
-	doorShopResult := m.newDoorShop.CheckDoorAvailable(product.GetName())
-	paintShoppResult := m.newPaintShop.CheckPaintAvailable(product.GetName())
-	return doorShopResult || paintShoppResult
+func (f *facade) PrepForOwner(waterVolume int, foodTemp int) {
+	f.ownerBath.FillUp(waterVolume)
+	f.ownerLight.TurnOn()
+	f.ownerMicrowave.StartHeat(foodTemp)
 }
 
-// NewManager фабрика фасада
-func NewManager(newDoorShop doorShop, newPaintShop paintShop) Manager {
-	return &manager{
-		newDoorShop:  newDoorShop,
-		newPaintShop: newPaintShop,
+func NewFacade(ownerBath bath, ownerMicrowave microwave, ownerLight light) Facade {
+	return &facade{
+		ownerMicrowave: ownerMicrowave,
+		ownerLight:     ownerLight,
+		ownerBath:      ownerBath,
 	}
 }
