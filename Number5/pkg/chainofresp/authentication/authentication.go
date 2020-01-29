@@ -11,7 +11,7 @@ type registrator interface {
 }
 
 type service interface {
-	Connect(login string, msg *[]byte) error
+	Handle(login string, msg *[]byte) error
 }
 
 // Authentificator интерфейс аутентификации
@@ -38,7 +38,7 @@ func (a *authentificator) ConnectUser(login string, password string, msg *[]byte
 		err = errors.New("wrong password")
 		return
 	}
-	err = a.userService.Connect(login, msg)
+	err = a.userService.Handle(login, msg)
 	return
 }
 
