@@ -1,6 +1,6 @@
 package palyer
 
-import "errors"
+import "fmt"
 
 type command interface {
 	Execute() error
@@ -36,7 +36,7 @@ func (d *palyer) Execute() (err error) {
 		}
 		return
 	} else {
-		err = errors.New("all command are finished")
+		err = fmt.Errorf("all command are finished")
 		return
 	}
 }
@@ -49,7 +49,7 @@ func (d *palyer) Cancel() (err error) {
 		}
 		return
 	} else {
-		err = errors.New("No one command was executed")
+		err = fmt.Errorf("No one command was executed")
 		return
 	}
 }

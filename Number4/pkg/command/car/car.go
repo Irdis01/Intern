@@ -1,6 +1,6 @@
 package car
 
-import "errors"
+import "fmt"
 
 // Car car interface
 type Car interface {
@@ -29,7 +29,7 @@ func (c *car) StopEngine() (err error) {
 		c.engineState = false
 		return
 	} else {
-		err = errors.New("car is moving")
+		err = fmt.Errorf("car is moving")
 		return
 	}
 }
@@ -38,7 +38,7 @@ func (c *car) TurnOnHandbrake() (err error) {
 	if (c.speed == 0) && (!c.engineState) {
 		c.handbrakeState = true
 	} else {
-		err = errors.New("stop the car and turn off engine")
+		err = fmt.Errorf("stop the car and turn off engine")
 	}
 	return
 }
@@ -52,7 +52,7 @@ func (c *car) StartMove() (err error) {
 		c.speed = 10
 		return
 	} else {
-		err = errors.New("can't start moving")
+		err = fmt.Errorf("can't start moving")
 		return
 	}
 }
@@ -61,7 +61,7 @@ func (c *car) Accelerate() (err error) {
 	if c.engineState {
 		c.speed += 10
 	} else {
-		err = errors.New("car can't moving")
+		err = fmt.Errorf("car can't moving")
 	}
 	return
 }
@@ -71,7 +71,7 @@ func (c *car) Slowdown() (err error) {
 		c.speed -= 10
 		return
 	} else {
-		err = errors.New("speed is zero or car can't moving")
+		err = fmt.Errorf("speed is zero or car can't moving")
 		return
 	}
 }
