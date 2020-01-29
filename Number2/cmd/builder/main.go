@@ -16,16 +16,16 @@ func main() {
 		town = append(town, townBuilder.NewTent())
 	}
 	var defenceRaiting int
-	defenceMap:=map[string]int {
-		"stone":10,
-		"wood":5,
-		"cloth":2,
-		"heavy door":5,
-		"light door":2,
-		"none":0,
+	defenceMap := map[string]int{
+		"stone":      10,
+		"wood":       5,
+		"cloth":      2,
+		"heavy door": 5,
+		"light door": 2,
+		"none":       0,
 	}
-	for _,val:=range town {
-		defenceRaiting+=val.CalculateDefence(defenceMap)
+	for _, val := range town {
+		defenceRaiting += val.CalculateDefence(defenceMap)
 	}
 	log.Println(defenceRaiting)
 }
