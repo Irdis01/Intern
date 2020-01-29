@@ -4,14 +4,14 @@ import (
 	"log"
 
 	"github.com/Irdis01/Intern/Number5/pkg/chainofresp/authentication"
-	"github.com/Irdis01/Intern/Number5/pkg/chainofresp/registrator"
+	"github.com/Irdis01/Intern/Number5/pkg/chainofresp/security"
+	"github.com/Irdis01/Intern/Number5/pkg/chainofresp/customer"
 	"github.com/Irdis01/Intern/Number5/pkg/chainofresp/warehouse"
-	"github.com/Irdis01/Intern/Number5/pkg/chainofresp/userbase"
 )
 
 func main() {
-	baseMapper := userbase.NewUserBase()
-	userRegistrator := registrator.NewRegistrator(baseMapper)
+	baseMapper := customer.NewUserBase()
+	userRegistrator := security.NewRegistrator(baseMapper)
 	respService := warehouse.NewService()
 	userAuth := authentication.NewAuthentificator(baseMapper, userRegistrator, respService)
 	msg := make([]byte, 0)

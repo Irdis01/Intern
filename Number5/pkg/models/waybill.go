@@ -1,7 +1,7 @@
 package models
 
 type Waybill struct {
-	owner string
-	productName string
-	productId int
+	Owner       string
+	ProductName string
+	ProductId   int
 }

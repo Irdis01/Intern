@@ -1,4 +1,4 @@
-package registrator
+package security
 
 type baseMapper interface {
 	AddUser(login string, password string) error

@@ -1,4 +1,4 @@
-package userbase
+package customer
 
 import "errors"
 
