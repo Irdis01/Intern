@@ -8,9 +8,9 @@ import (
 )
 
 const (
-	AddTest  = "Add test"
-	GetTest  = "Get test"
-	HeatTest = "Heat test"
+	addTest  = "Add test"
+	getTest  = "Get test"
+	heatTest = "Heat test"
 )
 
 func TestMicrowave_Add(t *testing.T) {
@@ -33,7 +33,7 @@ func TestMicrowave_Add(t *testing.T) {
 			err: errors.New("microwave is not empty"),
 		},
 	}
-	t.Run(AddTest, func(t *testing.T) {
+	t.Run(addTest, func(t *testing.T) {
 		for i, _ := range expect {
 			err := TestMicrowave.Add(foods[i])
 			assert.Equal(t, expect[i].err, err)
@@ -65,7 +65,7 @@ func TestMicrowave_Get(t *testing.T) {
 		},
 	}
 	TestMicrowave.Add(foods[0])
-	t.Run(GetTest, func(t *testing.T) {
+	t.Run(getTest, func(t *testing.T) {
 		for i, _ := range expect {
 			res, err := TestMicrowave.Get()
 			assert.Equal(t, expect[i].err, err)
@@ -93,7 +93,7 @@ func TestMicrowave_Heat(t *testing.T) {
 			err:    errors.New("no food in microwave"),
 		},
 	}
-	t.Run(HeatTest, func(t *testing.T) {
+	t.Run(heatTest, func(t *testing.T) {
 		for i, _ := range expect {
 			TestMicrowave := NewMicrowave()
 			TestMicrowave.Add(foods[i])

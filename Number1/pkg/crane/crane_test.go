@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	FillUpTest = "Full up test"
+	fillUpTest = "Full up test"
 )
 
 func TestCrane_FillUp(t *testing.T) {
@@ -34,7 +34,7 @@ func TestCrane_FillUp(t *testing.T) {
 			err:    errors.New("can't add this amount of water. Will be higher than max"),
 		},
 	}
-	t.Run(FillUpTest, func(t *testing.T) {
+	t.Run(fillUpTest, func(t *testing.T) {
 		for i, _ := range expect {
 			testChandelier := NewCrane(baths[i])
 			res, err := testChandelier.FillUp(5)

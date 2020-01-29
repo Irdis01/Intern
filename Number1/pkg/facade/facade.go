@@ -1,6 +1,9 @@
 package facade
 
-import "github.com/Irdis01/Intern/Number1/pkg/models"
+import (
+	"errors"
+	"github.com/Irdis01/Intern/Number1/pkg/models"
+)
 
 type crane interface {
 	FillUp(volume int) (waterVolume int, err error)
@@ -21,7 +24,7 @@ type microwave interface {
 
 // Facade facade interface
 type Facade interface {
-	Prepare(waterTemp int, foodTemp int) (err error)
+	Prepare(waterTemp int, foodTemp int) (bathResult int, lightResult bool, heatResult int, err error)
 }
 
 type facade struct {
@@ -30,16 +33,22 @@ type facade struct {
 	ownerMicrowave microwave
 }
 
-func (f *facade) Prepare(waterVolume int, foodTemp int) (err error) {
-	_, err = f.ownerBath.FillUp(waterVolume)
-	if err != nil {
-		return
+func (f *facade) Prepare(waterVolume int, foodTemp int) (bathResult int, lightResult bool, heatResult int, err error) {
+	var (
+		errBath,errLight, errHeat error
+	)
+	bathResult, errBath = f.ownerBath.FillUp(waterVolume)
+	if errBath != nil {
+		err=errBath
 	}
-	_, err = f.ownerLight.TurnOn()
-	if err != nil {
-		return
+	lightResult, errLight = f.ownerLight.TurnOn()
+	if errLight != nil {
+		err=errors.New(err.Error()+" "+errLight.Error() )
 	}
-	_, err = f.ownerMicrowave.Heat(foodTemp)
+	heatResult, errHeat = f.ownerMicrowave.Heat(foodTemp)
+	if errHeat != nil {
+		err=errors.New(err.Error()+" "+errHeat.Error() )
+	}
 	return
 }
 

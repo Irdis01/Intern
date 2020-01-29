@@ -8,10 +8,10 @@ import (
 )
 
 const (
-	AddTest     = "Add test"
-	RemoveTest  = "Remove test"
-	TurnOnTest  = "Turn On test"
-	TurnOffTest = "Turn Off test"
+	addTest     = "Add test"
+	removeTest  = "Remove test"
+	turnOnTest  = "Turn On test"
+	turnOffTest = "Turn Off test"
 )
 
 func TestChandelier_Add(t *testing.T) {
@@ -42,7 +42,7 @@ func TestChandelier_Add(t *testing.T) {
 			err:    errors.New("chandelier has lamp"),
 		},
 	}
-	t.Run(AddTest, func(t *testing.T) {
+	t.Run(addTest, func(t *testing.T) {
 		for i, _ := range expect {
 			res, err := testChandelier.Add(lamps[i])
 			assert.Equal(t, expect[i].result, res)
@@ -80,7 +80,7 @@ func TestChandelier_Remove(t *testing.T) {
 		},
 	}
 	testChandelier.Add(lamps[0])
-	t.Run(RemoveTest, func(t *testing.T) {
+	t.Run(removeTest, func(t *testing.T) {
 		for i, _ := range expect {
 			res, err := testChandelier.Remove()
 			assert.Equal(t, expect[i].result, res)
@@ -137,7 +137,7 @@ func TestChandelier_TurnOn(t *testing.T) {
 			err:    errors.New("lamp is burn out"),
 		},
 	}
-	t.Run(TurnOnTest, func(t *testing.T) {
+	t.Run(turnOnTest, func(t *testing.T) {
 		for i, _ := range expect {
 			testChandelier := NewChandelier()
 			testChandelier.Add(lamps[i])
@@ -178,7 +178,7 @@ func TestChandelier_TurnOff(t *testing.T) {
 	}
 	testChandelier := NewChandelier()
 	testChandelier.Add(lamps[0])
-	t.Run(TurnOffTest, func(t *testing.T) {
+	t.Run(turnOffTest, func(t *testing.T) {
 		for i, _ := range expect {
 			testChandelier := NewChandelier()
 			testChandelier.Add(lamps[i])
