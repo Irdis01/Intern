@@ -2,6 +2,7 @@ package facade
 
 import (
 	"errors"
+	"fmt"
 	"github.com/Irdis01/Intern/Number1/pkg/models"
 )
 
@@ -49,6 +50,7 @@ func (f *facade) Prepare(waterVolume int, foodTemp int) (bathResult int, lightRe
 	if errHeat != nil {
 		err=errors.New(err.Error()+" "+errHeat.Error() )
 	}
+	err=fmt.Errorf("%v %v %v",errBath,errLight,errHeat)
 	return
 }
 

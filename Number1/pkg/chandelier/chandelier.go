@@ -2,6 +2,7 @@ package chandelier
 
 import (
 	"errors"
+	"fmt"
 	"github.com/Irdis01/Intern/Number1/pkg/models"
 )
 
@@ -20,7 +21,7 @@ type chandelier struct {
 func (c *chandelier) TurnOn() (lampState bool, err error) {
 	if c.lamp.LightState {
 		lampState = c.lamp.LightState
-		err = errors.New("lamp is already works")
+		err = fmt.Errorf("lamp is already works")
 		return
 	}
 	c.lamp.WorkCycle++
@@ -28,7 +29,7 @@ func (c *chandelier) TurnOn() (lampState bool, err error) {
 		c.lamp.IsBurnOut = true
 	}
 	if c.lamp.IsBurnOut {
-		err = errors.New("lamp is burn out")
+		err = fmt.Error("lamp is burn out")
 		return
 	}
 	c.lamp.LightState = true
@@ -40,7 +41,7 @@ func (c *chandelier) TurnOn() (lampState bool, err error) {
 func (c *chandelier) TurnOff() (lampState bool, err error) {
 	if !c.lamp.LightState {
 		lampState = c.lamp.LightState
-		err = errors.New("lamp is shutdown")
+		err = fmt.Errorf("lamp is shutdown")
 		return
 	}
 	c.lamp.LightState = false
@@ -50,7 +51,7 @@ func (c *chandelier) TurnOff() (lampState bool, err error) {
 
 func (c *chandelier) Add(lamp *models.Lamp) (lampIsBurn bool, err error) {
 	if c.lamp != nil {
-		err = errors.New("chandelier has lamp")
+		err = fmt.Errorf("chandelier has lamp")
 		lampIsBurn = c.lamp.IsBurnOut
 		return
 	}
@@ -60,7 +61,7 @@ func (c *chandelier) Add(lamp *models.Lamp) (lampIsBurn bool, err error) {
 
 func (c *chandelier) Remove() (lamp *models.Lamp, err error) {
 	if c.lamp == nil {
-		err = errors.New("chandelier has no lamp")
+		err = fmt.Errorf("chandelier has no lamp")
 		return
 	}
 	lamp = c.lamp

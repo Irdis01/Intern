@@ -1,7 +1,7 @@
 package crane
 
 import (
-	"errors"
+	"fmt"
 	"github.com/Irdis01/Intern/Number1/pkg/models"
 )
 
@@ -16,7 +16,7 @@ type crane struct {
 
 func (c *crane) FillUp(addingVolume int) (waterVolume int, err error) {
 	if (c.bath.Volume + addingVolume) > c.bath.MaxVolume {
-		err = errors.New("can't add this amount of water. Will be higher than max")
+		err = fmt.Errorf("can't add this amount of water. Will be higher than max")
 		waterVolume = c.bath.Volume
 		return
 	}

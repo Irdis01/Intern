@@ -1,7 +1,7 @@
 package microwave
 
 import (
-	"errors"
+	"fmt"
 	"github.com/Irdis01/Intern/Number1/pkg/models"
 )
 
@@ -18,7 +18,7 @@ type microwave struct {
 
 func (m *microwave) Heat(temp int) (foodTemp int, err error) {
 	if m.foodInMicrowave == nil {
-		err = errors.New("no food in microwave")
+		err = fmt.Errorf("no food in microwave")
 		return
 	}
 	m.foodInMicrowave.Temp = temp
@@ -28,7 +28,7 @@ func (m *microwave) Heat(temp int) (foodTemp int, err error) {
 
 func (m *microwave) Add(food *models.Food) (err error) {
 	if m.foodInMicrowave != nil {
-		err = errors.New("microwave is not empty")
+		err = fmt.Errorf("microwave is not empty")
 		return
 	}
 	m.foodInMicrowave = food
@@ -37,7 +37,7 @@ func (m *microwave) Add(food *models.Food) (err error) {
 
 func (m *microwave) Get() (foodInMicrowave *models.Food, err error) {
 	if m.foodInMicrowave == nil {
-		err = errors.New("microwave is empty")
+		err = fmt.Errorf("microwave is empty")
 		return
 	}
 	foodInMicrowave = m.foodInMicrowave
