@@ -5,7 +5,7 @@ type visitor interface {
 	VisitRectangle(Figure) interface{}
 }
 
-// Figure интерфейс для взаимодействия с фигурами
+// Figure all figure interface
 type Figure interface {
 	GetSides() []float64
 	Visit(visitor) interface{}

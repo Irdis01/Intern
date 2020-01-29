@@ -19,7 +19,7 @@ func (t *triangle) Visit(v visitor) interface{} {
 	return v.VisitTriangle(t)
 }
 
-// NewTriangle создаёт новый треугольник
+// NewTriangle return new triangle
 func NewTriangle(firstSide float64, secondSide float64, thirdSide float64) Figure {
 	return &triangle{
 		firstSide:  firstSide,

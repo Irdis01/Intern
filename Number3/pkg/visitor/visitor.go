@@ -1,4 +1,4 @@
-package area
+package visitor
 
 import (
 	"math"
@@ -6,8 +6,8 @@ import (
 	"github.com/Irdis01/Intern/Number3/pkg/figure"
 )
 
-// Visiter интерфейс посетителя
-type Visiter interface {
+// Visitor visitor interface
+type Visitor interface {
 	VisitTriangle(geomtricFigure figure.Figure) (area interface{})
 	VisitRectangle(geomtricFigure figure.Figure) (area interface{})
 }
@@ -35,7 +35,7 @@ func (a *areaCalculator) VisitRectangle(geomtricFigure figure.Figure) (area inte
 	return
 }
 
-// NewAreaCalculator конструктор посетителя, для расчёта площади площади
-func NewAreaCalculator() Visiter {
+// NewVisitor return bew visitor
+func NewVisitor() Visitor {
 	return &areaCalculator{}
 }

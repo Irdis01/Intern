@@ -16,7 +16,7 @@ func (r *rectangle) Visit(v visitor) interface{} {
 	return v.VisitRectangle(r)
 }
 
-// NewRectangle создаёт новый прямоугольник
+// NewRectangle return new rectangle
 func NewRectangle(firstSide float64, secondSide float64) Figure {
 	return &rectangle{
 		firstSide:  firstSide,
