@@ -1,22 +1,22 @@
 package commands
 
 type slowDownCommand struct {
-	carReciver car
+	reciver car
 }
 
 func (a *slowDownCommand) Execute() (err error) {
-	err = a.carReciver.Slowdown()
+	err = a.reciver.Slowdown()
 	return
 }
 
 func (a *slowDownCommand) Cancel() (err error) {
-	err = a.carReciver.Accelerate()
+	err = a.reciver.Accelerate()
 	return
 }
 
 // NewSlowDownCommand конструктор команды для замедления
-func NewSlowDownCommand(reciever car) Commands {
+func NewSlowDownCommand(reciver car) Commands {
 	return &slowDownCommand{
-		carReciver: reciever,
+		reciver: reciver,
 	}
 }

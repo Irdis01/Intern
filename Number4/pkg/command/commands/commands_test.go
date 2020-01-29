@@ -6,21 +6,12 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	carPkg "github.com/Irdis01/Intern/Number4/pkg/command/car"
-	"github.com/Irdis01/Intern/Number4/pkg/command/driver"
+	"github.com/Irdis01/Intern/Number4/pkg/command/palyer"
 )
 
 const (
 	commandSuccessTest        = "no errors test"
 	commandErrorTest          = "command error test"
-	cancelTest                = "cancel command test"
-	wrongStopTest             = "error in stop, cause has speed"
-	stopTestError             = "car is moving"
-	withoutStartAccTest       = "without start command accelerate test"
-	withoutStartTestAccError  = "car can't moving"
-	withoutStartSlowTest      = "without start command slow test"
-	withoutStartTestSlowError = "speed is zero or car can't moving"
-	withoutStartStopTest      = "without start command stop test"
-	withoutStartStopTestError = "speed is zero or car can't moving"
 )
 
 func TestCommand(t *testing.T) {
@@ -36,7 +27,7 @@ func TestCommand(t *testing.T) {
 	preparedDriverForTest := makeErrorCommandTest()
 
 	t.Run(commandSuccessTest, func(t *testing.T) {
-		testDriver := driver.NewDriver()
+		testDriver := palyer.NewDriver()
 		testCar := carPkg.NewCar()
 		testDriver.StoreCommand(NewStartCommand(testCar))
 		testDriver.StoreCommand(NewAccelerateCommand(testCar))
@@ -58,10 +49,10 @@ func TestCommand(t *testing.T) {
 	})
 }
 
-func makeErrorCommandTest() (testDriver [4]driver.Driver) {
+func makeErrorCommandTest() (testDriver [4]palyer.Player) {
 
 	/// wrongStopTest
-	testDriver[0] = driver.NewDriver()
+	testDriver[0] = palyer.NewDriver()
 	testCar := carPkg.NewCar()
 	testDriver[0].StoreCommand(NewStartCommand(testCar))
 	testDriver[0].StoreCommand(NewAccelerateCommand(testCar))
@@ -70,17 +61,17 @@ func makeErrorCommandTest() (testDriver [4]driver.Driver) {
 	testDriver[0].Execute()
 
 	/// withoutStartAccTest
-	testDriver[1] = driver.NewDriver()
+	testDriver[1] = palyer.NewDriver()
 	testCar = carPkg.NewCar()
 	testDriver[1].StoreCommand(NewAccelerateCommand(testCar))
 
 	/// withoutStartSlowTest
-	testDriver[2] = driver.NewDriver()
+	testDriver[2] = palyer.NewDriver()
 	testCar = carPkg.NewCar()
 	testDriver[2].StoreCommand(NewSlowDownCommand(testCar))
 
 	/// withoutStartStopTest
-	testDriver[3] = driver.NewDriver()
+	testDriver[3] = palyer.NewDriver()
 	testCar = carPkg.NewCar()
 	testDriver[3].StoreCommand(NewSlowDownCommand(testCar))
 

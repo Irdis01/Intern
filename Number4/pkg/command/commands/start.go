@@ -1,21 +1,21 @@
 package commands
 
 type startCommand struct {
-	carReciver car
+	reciever car
 }
 
 func (s *startCommand) Execute() (err error) {
-	s.carReciver.StartEngine()
-	s.carReciver.TurnOffHandbrake()
-	err = s.carReciver.StartMove()
+	s.reciever.StartEngine()
+	s.reciever.TurnOffHandbrake()
+	err = s.reciever.StartMove()
 	return
 }
 
 func (s *startCommand) Cancel() (err error) {
-	s.carReciver.Slowdown()
-	err = s.carReciver.StopEngine()
+	s.reciever.Slowdown()
+	err = s.reciever.StopEngine()
 	if err != nil {
-		err = s.carReciver.TurnOnHandbrake()
+		err = s.reciever.TurnOnHandbrake()
 	}
 	return
 }
@@ -23,6 +23,6 @@ func (s *startCommand) Cancel() (err error) {
 // NewStartCommand конструктор команды для запуска машины
 func NewStartCommand(reciver car) Commands {
 	return &startCommand{
-		carReciver: reciver,
+		reciever: reciver,
 	}
 }

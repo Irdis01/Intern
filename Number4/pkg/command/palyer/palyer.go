@@ -1,4 +1,4 @@
-package driver
+package palyer
 
 import "errors"
 
@@ -7,19 +7,19 @@ type command interface {
 	Cancel() error
 }
 
-// Driver интерфейс водителя
-type Driver interface {
+// Player интерфейс водителя
+type Player interface {
 	StoreCommand(newCommand command)
 	Execute() (err error)
 	Cancel() (err error)
 }
 
-type driver struct {
+type palyer struct {
 	driveCommands  []command // очередь команд
 	currentCommand int
 }
 
-func (d *driver) StoreCommand(newCommand command) {
+func (d *palyer) StoreCommand(newCommand command) {
 	if len(d.driveCommands) == 0 {
 		d.driveCommands = make([]command, 1)
 		d.driveCommands[0] = newCommand
@@ -28,7 +28,7 @@ func (d *driver) StoreCommand(newCommand command) {
 	}
 }
 
-func (d *driver) Execute() (err error) {
+func (d *palyer) Execute() (err error) {
 	if d.currentCommand < len(d.driveCommands) {
 		err = d.driveCommands[d.currentCommand].Execute()
 		if err == nil {
@@ -41,7 +41,7 @@ func (d *driver) Execute() (err error) {
 	}
 }
 
-func (d *driver) Cancel() (err error) {
+func (d *palyer) Cancel() (err error) {
 	if d.currentCommand != 0 {
 		err = d.driveCommands[d.currentCommand-1].Cancel()
 		if err == nil {
@@ -55,8 +55,8 @@ func (d *driver) Cancel() (err error) {
 }
 
 // NewDriver конструктор нового водителя
-func NewDriver() Driver {
-	return &driver{
+func NewDriver() Player {
+	return &palyer{
 		currentCommand: 0,
 	}
 }

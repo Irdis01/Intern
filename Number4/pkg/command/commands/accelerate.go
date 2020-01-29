@@ -1,22 +1,22 @@
 package commands
 
 type accelerateCommand struct {
-	carReciver car
+	reciver car
 }
 
 func (a *accelerateCommand) Execute() (err error) {
-	err = a.carReciver.Accelerate()
+	err = a.reciver.Accelerate()
 	return
 }
 
 func (a *accelerateCommand) Cancel() (err error) {
-	err = a.carReciver.Slowdown()
+	err = a.reciver.Slowdown()
 	return
 }
 
 // NewAccelerateCommand конструктор команды для ускорения
 func NewAccelerateCommand(reciever car) Commands {
 	return &accelerateCommand{
-		carReciver: reciever,
+		reciver: reciever,
 	}
 }

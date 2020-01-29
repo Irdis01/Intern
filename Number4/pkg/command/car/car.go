@@ -2,7 +2,7 @@ package car
 
 import "errors"
 
-// Car интерфейс автомобиля
+// Car car interface
 type Car interface {
 	StartEngine()
 	StopEngine() error

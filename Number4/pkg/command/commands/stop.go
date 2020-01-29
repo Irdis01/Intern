@@ -1,30 +1,30 @@
 package commands
 
 type stopCommand struct {
-	carReciever car
+	reciver car
 }
 
 func (s *stopCommand) Execute() (err error) {
-	s.carReciever.Slowdown()
-	err = s.carReciever.StopEngine()
+	s.reciver.Slowdown()
+	err = s.reciver.StopEngine()
 	if err == nil {
-		err = s.carReciever.TurnOnHandbrake()
+		err = s.reciver.TurnOnHandbrake()
 		return
 	}
-	s.carReciever.Accelerate()
+	s.reciver.Accelerate()
 	return
 }
 
 func (s *stopCommand) Cancel() (err error) {
-	s.carReciever.StartEngine()
-	s.carReciever.TurnOffHandbrake()
-	err = s.carReciever.StartMove()
+	s.reciver.StartEngine()
+	s.reciver.TurnOffHandbrake()
+	err = s.reciver.StartMove()
 	return
 }
 
 // NewStopCommand конструктор команды для остановки машины
 func NewStopCommand(reciver car) Commands {
 	return &stopCommand{
-		carReciever: reciver,
+		reciver: reciver,
 	}
 }
