@@ -11,6 +11,7 @@ func main() {
 	town := make([]building.Building, 1) //город, состоящий из замка, 4 зданий и 10 палаток
 	castle := building.NewBuilding()
 	townBuilder.NewCastle(castle)
+	town[0]=castle
 	for i := 0; i < 4; i++ {
 		house := building.NewBuilding()
 		townBuilder.NewHouse(house)
