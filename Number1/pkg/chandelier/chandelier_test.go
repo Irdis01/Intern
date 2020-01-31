@@ -8,95 +8,101 @@ import (
 )
 
 const (
-	addTest     = "Add test"
-	removeTest  = "Remove test"
-	turnOnTest  = "Turn On test"
-	turnOffTest = "Turn Off test"
+	addTestSuccess     = "Add test success"
+	addTestError       = "Add test error"
+	removeTestSuccess  = "Remove test success"
+	removeTestError    = "Remove test error"
+	turnOnTestSuccess  = "Turn On test"
+	turnOnTestError    = "Turn On test"
+	turnOffTestSuccess = "Turn On test"
+	turnOffTestError   = "Turn On test"
+
+	addError         = "chandelier has lamp"
+	removeError      = "chandelier has no lamp"
+	turnOnWorksError = "lamp is already works"
+	turnOnBurnError  = "lamp is burn out"
+	furnOffError     = "lamp is shutdown"
 )
 
-func TestChandelier_Add(t *testing.T) {
+func TestChandelier_AddSuccess(t *testing.T) {
 	testChandelier := NewChandelier()
-	lamps := []*models.Lamp{{
+	lamps := &models.Lamp{
 		LightState:   false,
 		IsBurnOut:    false,
 		MaxWorkCycle: 10,
 		WorkCycle:    0,
-	},
-		{
-			LightState:   false,
-			IsBurnOut:    false,
-			MaxWorkCycle: 10,
-			WorkCycle:    0,
-		},
 	}
-	expect := []struct {
-		result bool
-		err    error
-	}{
-		{
-			result: false,
-			err:    nil,
-		},
-		{
-			result: false,
-			err:    errors.New("chandelier has lamp"),
-		},
-	}
-	t.Run(addTest, func(t *testing.T) {
-		for i, _ := range expect {
-			res, err := testChandelier.Add(lamps[i])
-			assert.Equal(t, expect[i].result, res)
-			assert.Equal(t, expect[i].err, err)
-		}
+	expect := false
+	t.Run(addTestSuccess, func(t *testing.T) {
+		res, err := testChandelier.Add(lamps)
+		assert.NoError(t, err, "unexpecting error")
+		assert.Equal(t, expect, res)
 	})
 }
 
-func TestChandelier_Remove(t *testing.T) {
+func TestChandelier_AddError(t *testing.T) {
 	testChandelier := NewChandelier()
-	lamps := []*models.Lamp{{
+	lamps := &models.Lamp{
 		LightState:   false,
 		IsBurnOut:    false,
 		MaxWorkCycle: 10,
 		WorkCycle:    0,
-	},
-		{
-			LightState:   false,
-			IsBurnOut:    false,
-			MaxWorkCycle: 10,
-			WorkCycle:    0,
-		},
 	}
-	expect := []struct {
-		result *models.Lamp
-		err    error
-	}{
-		{
-			result: lamps[0],
-			err:    nil,
-		},
-		{
-			result: nil,
-			err:    errors.New("chandelier has no lamp"),
-		},
-	}
-	testChandelier.Add(lamps[0])
-	t.Run(removeTest, func(t *testing.T) {
-		for i, _ := range expect {
-			res, err := testChandelier.Remove()
-			assert.Equal(t, expect[i].result, res)
-			assert.Equal(t, expect[i].err, err)
-		}
+	testChandelier.Add(lamps)
+	expect := errors.New(addError)
+	t.Run(addTestError, func(t *testing.T) {
+		_, err := testChandelier.Add(lamps)
+		assert.Equal(t, expect, err)
 	})
 }
 
-func TestChandelier_TurnOn(t *testing.T) {
+func TestChandelier_RemoveSuccess(t *testing.T) {
+	testChandelier := NewChandelier()
+	lamps := &models.Lamp{
+		LightState:   false,
+		IsBurnOut:    false,
+		MaxWorkCycle: 10,
+		WorkCycle:    0,
+	}
+	expect := *lamps
+	testChandelier.Add(lamps)
+	t.Run(removeTestSuccess, func(t *testing.T) {
+		res, err := testChandelier.Remove()
+		assert.NoError(t, err, "unexpected error")
+		assert.Equal(t, expect, res)
+	})
+}
+
+func TestChandelier_RemoveError(t *testing.T) {
+	testChandelier := NewChandelier()
+	expect := errors.New(removeError)
+	t.Run(removeTestError, func(t *testing.T) {
+		_, err := testChandelier.Remove()
+		assert.Equal(t, expect, err)
+	})
+}
+
+func TestChandelier_TurnOnSuccess(t *testing.T) {
 	//testChandelier:=NewChandelier()
-	lamps := []*models.Lamp{{
+	lamps := &models.Lamp{
 		LightState:   false,
 		IsBurnOut:    false,
 		MaxWorkCycle: 10,
 		WorkCycle:    0,
-	},
+	}
+	expect := true
+	testChandelier := NewChandelier()
+	testChandelier.Add(lamps)
+	t.Run(turnOnTestSuccess, func(t *testing.T) {
+		res, err := testChandelier.TurnOn()
+		assert.NoError(t, err, "unexpected error")
+		assert.Equal(t, expect, res)
+	})
+}
+
+func TestChandelier_TurnOnError(t *testing.T) {
+	//testChandelier:=NewChandelier()
+	lamps := []*models.Lamp{
 		{
 			LightState:   true,
 			IsBurnOut:    false,
@@ -122,22 +128,18 @@ func TestChandelier_TurnOn(t *testing.T) {
 	}{
 		{
 			result: true,
-			err:    nil,
-		},
-		{
-			result: true,
-			err:    errors.New("lamp is already works"),
+			err:    errors.New(turnOnWorksError),
 		},
 		{
 			result: false,
-			err:    errors.New("lamp is burn out"),
+			err:    errors.New(turnOnBurnError),
 		},
 		{
 			result: false,
-			err:    errors.New("lamp is burn out"),
+			err:    errors.New(turnOnBurnError),
 		},
 	}
-	t.Run(turnOnTest, func(t *testing.T) {
+	t.Run(turnOnTestError, func(t *testing.T) {
 		for i, _ := range expect {
 			testChandelier := NewChandelier()
 			testChandelier.Add(lamps[i])
@@ -148,43 +150,37 @@ func TestChandelier_TurnOn(t *testing.T) {
 	})
 }
 
-func TestChandelier_TurnOff(t *testing.T) {
-	//testChandelier:=NewChandelier()
-	lamps := []*models.Lamp{{
+func TestChandelier_TurnOffSuccess(t *testing.T) {
+	//testChandelier:=NewChandeler()
+	lamps := &models.Lamp{
 		LightState:   true,
 		IsBurnOut:    false,
 		MaxWorkCycle: 10,
 		WorkCycle:    0,
-	},
-		{
-			LightState:   false,
-			IsBurnOut:    false,
-			MaxWorkCycle: 10,
-			WorkCycle:    0,
-		},
 	}
-	expect := []struct {
-		result bool
-		err    error
-	}{
-		{
-			result: false,
-			err:    nil,
-		},
-		{
-			result: false,
-			err:    errors.New("lamp is shutdown"),
-		},
-	}
+	expect := false
 	testChandelier := NewChandelier()
-	testChandelier.Add(lamps[0])
-	t.Run(turnOffTest, func(t *testing.T) {
-		for i, _ := range expect {
-			testChandelier := NewChandelier()
-			testChandelier.Add(lamps[i])
-			res, err := testChandelier.TurnOff()
-			assert.Equal(t, expect[i].result, res)
-			assert.Equal(t, expect[i].err, err)
-		}
+	testChandelier.Add(lamps)
+	t.Run(turnOffTestSuccess, func(t *testing.T) {
+		res, err := testChandelier.TurnOff()
+		assert.NoError(t, err, "unexpected error")
+		assert.Equal(t, expect, res)
+	})
+}
+
+func TestChandelier_TurnOffError(t *testing.T) {
+	//testChandelier:=NewChandelier()
+	lamps := &models.Lamp{
+		LightState:   false,
+		IsBurnOut:    false,
+		MaxWorkCycle: 10,
+		WorkCycle:    0,
+	}
+	expect := errors.New("lamp is shutdown")
+	testChandelier := NewChandelier()
+	testChandelier.Add(lamps)
+	t.Run(turnOffTestSuccess, func(t *testing.T) {
+		_, err := testChandelier.TurnOff()
+		assert.Equal(t, expect, err)
 	})
 }

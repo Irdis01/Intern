@@ -8,98 +8,87 @@ import (
 )
 
 const (
-	addTest  = "Add test"
-	getTest  = "Get test"
-	heatTest = "Heat test"
+	addTestSuccess  = "Add test success"
+	addTestError    = "Add test error"
+	getTestSuccess  = "Get test success"
+	getTestError    = "Get test error"
+	heatTestSuccess = "Heat test success"
+	heatTestError   = "Heat test error"
+
+	addError  = "microwave is not empty"
+	getError  = "microwave is empty"
+	heatError = "no food in microwave"
 )
 
-func TestMicrowave_Add(t *testing.T) {
+func TestMicrowave_AddSuccess(t *testing.T) {
 	TestMicrowave := NewMicrowave()
-	foods := []*models.Food{{
-		0,
-	},
-		{
-			Temp: 0,
-		},
+	foods := &models.Food{
+		Temp: 0,
 	}
-	expect := []struct {
-		result int
-		err    error
-	}{
-		{
-			err: nil,
-		},
-		{
-			err: errors.New("microwave is not empty"),
-		},
-	}
-	t.Run(addTest, func(t *testing.T) {
-		for i, _ := range expect {
-			err := TestMicrowave.Add(foods[i])
-			assert.Equal(t, expect[i].err, err)
-		}
-	})
-
-}
-
-func TestMicrowave_Get(t *testing.T) {
-	TestMicrowave := NewMicrowave()
-	foods := []*models.Food{{
-		0,
-	},
-		{
-			Temp: 0,
-		},
-	}
-	expect := []struct {
-		result *models.Food
-		err    error
-	}{
-		{
-			result: foods[0],
-			err:    nil,
-		},
-		{
-			result: nil,
-			err:    errors.New("microwave is empty"),
-		},
-	}
-	TestMicrowave.Add(foods[0])
-	t.Run(getTest, func(t *testing.T) {
-		for i, _ := range expect {
-			res, err := TestMicrowave.Get()
-			assert.Equal(t, expect[i].err, err)
-			assert.Equal(t, expect[i].result, res)
-		}
+	expect := error(nil)
+	t.Run(addTestSuccess, func(t *testing.T) {
+		err := TestMicrowave.Add(foods)
+		assert.Equal(t, expect, err)
 	})
 }
 
-func TestMicrowave_Heat(t *testing.T) {
-	foods := []*models.Food{{
-		0,
-	},
-		nil,
+func TestMicrowave_AddError(t *testing.T) {
+	testMicrowave := NewMicrowave()
+	foods := &models.Food{
+		Temp: 0,
 	}
-	expect := []struct {
-		result int
-		err    error
-	}{
-		{
-			result: 80,
-			err:    nil,
-		},
-		{
-			result: 0,
-			err:    errors.New("no food in microwave"),
-		},
+	expect := errors.New(addError)
+	testMicrowave.Add(foods)
+	t.Run(addTestError, func(t *testing.T) {
+		err := testMicrowave.Add(foods)
+		assert.Equal(t, expect, err)
+	})
+}
+
+func TestMicrowave_GetSuccess(t *testing.T) {
+	TestMicrowave := NewMicrowave()
+	foods := &models.Food{
+		Temp: 0,
 	}
-	t.Run(heatTest, func(t *testing.T) {
-		for i, _ := range expect {
-			TestMicrowave := NewMicrowave()
-			TestMicrowave.Add(foods[i])
-			res, err := TestMicrowave.Heat(80)
-			assert.Equal(t, expect[i].err, err)
-			assert.Equal(t, expect[i].result, res)
-		}
+	expect := models.Food{}
+	TestMicrowave.Add(foods)
+	t.Run(getTestSuccess, func(t *testing.T) {
+		res, err := TestMicrowave.Get()
+		assert.NoError(t, err, "unexpected error")
+		assert.Equal(t, expect, res)
+	})
+}
+
+func TestMicrowave_GetError(t *testing.T) {
+	TestMicrowave := NewMicrowave()
+	expect := errors.New(getError)
+	t.Run(getTestError, func(t *testing.T) {
+		_, err := TestMicrowave.Get()
+		assert.Equal(t, expect, err)
+	})
+}
+
+func TestMicrowave_HeatSuccess(t *testing.T) {
+	TestMicrowave := NewMicrowave()
+	foods := &models.Food{
+		Temp: 0,
+	}
+	expect := 80
+	TestMicrowave.Add(foods)
+	t.Run(heatTestSuccess, func(t *testing.T) {
+		res, err := TestMicrowave.Heat(80)
+		assert.NoError(t, err, "unexpected error")
+		assert.Equal(t, expect, res)
+	})
+}
+
+func TestMicrowave_HeatError(t *testing.T) {
+	var foods *models.Food
+	expect := errors.New(heatError)
+	TestMicrowave := NewMicrowave()
+	TestMicrowave.Add(foods)
+	t.Run(heatTestError, func(t *testing.T) {
+		_, err := TestMicrowave.Heat(80)
+		assert.Equal(t, expect, err)
 	})
 }

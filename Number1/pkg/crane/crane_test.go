@@ -8,38 +8,34 @@ import (
 )
 
 const (
-	fillUpTest = "Full up test"
+	fillUpTestSuccess = "Full up test sucess"
+	fillUpTestError   = "Full up test sucess"
+	fillUpError       = "can't add this amount of water. Will be higher than max"
 )
 
-func TestCrane_FillUp(t *testing.T) {
-	baths := []*models.Bath{{
+func TestCrane_FillUpSuccess(t *testing.T) {
+	baths := &models.Bath{
 		MaxVolume: 10,
 		Volume:    0,
-	},
-		{
-			MaxVolume: 9,
-			Volume:    5,
-		},
 	}
-	expect := []struct {
-		result int
-		err    error
-	}{
-		{
-			result: 5,
-			err:    nil,
-		},
-		{
-			result: 5,
-			err:    errors.New("can't add this amount of water. Will be higher than max"),
-		},
+	expect := 5
+	testCrane := NewCrane(baths)
+	t.Run(fillUpTestSuccess, func(t *testing.T) {
+		res, err := testCrane.FillUp(5)
+		assert.NoError(t, err, "unexpected error")
+		assert.Equal(t, expect, res)
+	})
+}
+
+func TestCrane_FillUpError(t *testing.T) {
+	baths := &models.Bath{
+		MaxVolume: 9,
+		Volume:    5,
 	}
-	t.Run(fillUpTest, func(t *testing.T) {
-		for i, _ := range expect {
-			testChandelier := NewCrane(baths[i])
-			res, err := testChandelier.FillUp(5)
-			assert.Equal(t, expect[i].result, res)
-			assert.Equal(t, expect[i].err, err)
-		}
+	expect := errors.New(fillUpError)
+	testCrane := NewCrane(baths)
+	t.Run(fillUpTestError, func(t *testing.T) {
+		_, err := testCrane.FillUp(5)
+		assert.Equal(t, expect, err)
 	})
 }

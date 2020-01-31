@@ -9,7 +9,7 @@ import (
 type Microwave interface {
 	Heat(temp int) (foodTemp int, err error)
 	Add(food *models.Food) (err error)
-	Get() (foodInMicrowave *models.Food, err error)
+	Get() (foodInMicrowave models.Food, err error)
 }
 
 type microwave struct {
@@ -35,12 +35,12 @@ func (m *microwave) Add(food *models.Food) (err error) {
 	return
 }
 
-func (m *microwave) Get() (foodInMicrowave *models.Food, err error) {
+func (m *microwave) Get() (foodInMicrowave models.Food, err error) {
 	if m.foodInMicrowave == nil {
 		err = fmt.Errorf("microwave is empty")
 		return
 	}
-	foodInMicrowave = m.foodInMicrowave
+	foodInMicrowave = *m.foodInMicrowave
 	m.foodInMicrowave = nil
 	return
 }

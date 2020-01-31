@@ -1,8 +1,6 @@
 package facade
 
 import (
-	"errors"
-	"fmt"
 	"github.com/Irdis01/Intern/Number1/pkg/models"
 )
 
@@ -14,13 +12,13 @@ type chandelier interface {
 	TurnOn() (lampState bool, err error)
 	TurnOff() (lampState bool, err error)
 	Add(lamp *models.Lamp) (lampIsBurn bool, err error)
-	Remove() (lamp *models.Lamp, err error)
+	Remove() (lamp models.Lamp, err error)
 }
 
 type microwave interface {
 	Heat(temp int) (foodTemp int, err error)
 	Add(food *models.Food) (err error)
-	Get() (foodInMicrowave *models.Food, err error)
+	Get() (foodInMicrowave models.Food, err error)
 }
 
 // Facade facade interface
@@ -35,22 +33,18 @@ type facade struct {
 }
 
 func (f *facade) Prepare(waterVolume int, foodTemp int) (bathResult int, lightResult bool, heatResult int, err error) {
-	var (
-		errBath,errLight, errHeat error
-	)
-	bathResult, errBath = f.ownerBath.FillUp(waterVolume)
-	if errBath != nil {
-		err=errBath
+	bathResult, err = f.ownerBath.FillUp(waterVolume)
+	if err != nil {
+		return
 	}
-	lightResult, errLight = f.ownerLight.TurnOn()
-	if errLight != nil {
-		err=errors.New(err.Error()+" "+errLight.Error() )
+	lightResult, err = f.ownerLight.TurnOn()
+	if err != nil {
+		return
 	}
-	heatResult, errHeat = f.ownerMicrowave.Heat(foodTemp)
-	if errHeat != nil {
-		err=errors.New(err.Error()+" "+errHeat.Error() )
+	heatResult, err = f.ownerMicrowave.Heat(foodTemp)
+	if err != nil {
+		return
 	}
-	err=fmt.Errorf("%v %v %v",errBath,errLight,errHeat)
 	return
 }
 
