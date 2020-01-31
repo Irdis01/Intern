@@ -25,7 +25,7 @@ func main() {
 		"none":       0,
 	}
 	for _, val := range town {
-		defenceRaiting += val.CalculateDefence(defenceMap)
+		//defenceRaiting += val.Calculate(defenceMap)
 	}
 	log.Println(defenceRaiting)
 }
