@@ -1,4 +1,4 @@
-package authentication
+package meet_behavior
 
 import "errors"
 

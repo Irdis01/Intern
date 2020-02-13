@@ -1,4 +1,4 @@
-package security
+package attack_behavior
 
 type baseMapper interface {
 	AddUser(login string, password string) error
